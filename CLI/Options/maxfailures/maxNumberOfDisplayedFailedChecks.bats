@@ -24,13 +24,12 @@ setup() {
 }
 
 # FastFailedValidator not supported 'maxNumberOfDisplayedFailedChecks'
-@test "#'maxNumberOfDisplayedFailedChecks' was ignored if 'maxFails' defined, cli '--maxfailures' option" {
+@test "#'maxNumberOfDisplayedFailedChecks' was ignored if 'maxFails' defined, cli option" {
 
-    run $BATS_TEST_TMPDIR/verapdf $BATS_TEST_TMPDIR/68_1_fail.pdf --format html --maxfailures 2 --maxfailuresdisplayed 0
+    run $BATS_TEST_TMPDIR/verapdf $BATS_TEST_TMPDIR/68_1_fail.pdf --format html --maxfailures 1 --maxfailuresdisplayed 2
 
     [ "$status" -eq 1 ]
     assert_output --partial '<b>Validation Profile:</b></td><td>PDF/A-3A validation profile</td>'
-    refute_output --partial '<b>Rule</b>'
-    refute_output --partial 'occurrences'
+    assert_output --partial '1 occurrences'
 
 }
